@@ -1,0 +1,41 @@
+From 9dc156eb524e3a1df380620f7aed5d94bfc1819f Mon Sep 17 00:00:00 2001
+From: Harsh Pal <iamhp2k@gmail.com>
+Date: Sat, 11 Mar 2023 12:21:21 +0000
+Subject: [PATCH] SystemUI: allow set combined QS with config
+
+legacy devices have some issue with it. instead of removing it let make it config. so that people who want can use it and other's can be happy without lag
+inspired from https://gerrit.aospa.co/c/AOSPA/android_frameworks_base/+/24531
+
+---
+ packages/SystemUI/res/values/flags.xml                    | 3 +++
+ packages/SystemUI/src/com/android/systemui/flags/Flags.kt | 2 +-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/packages/SystemUI/res/values/flags.xml b/packages/SystemUI/res/values/flags.xml
+index c5ffc94d01af..e8c45a43cb6b 100644
+--- a/packages/SystemUI/res/values/flags.xml
++++ b/packages/SystemUI/res/values/flags.xml
+@@ -43,4 +43,7 @@
+          protected. -->
+     <bool name="flag_battery_shield_icon">false</bool>
+ 
++    <!-- Whether the combined qs shows in status bar when true, the combined qs will not be available
++         if set it to false  -->
++    <bool name="flag_combined_qs_headers">false</bool>
+ </resources>
+diff --git a/packages/SystemUI/src/com/android/systemui/flags/Flags.kt b/packages/SystemUI/src/com/android/systemui/flags/Flags.kt
+index 2dd0da1fddac..17e9adfa4eee 100644
+--- a/packages/SystemUI/src/com/android/systemui/flags/Flags.kt
++++ b/packages/SystemUI/src/com/android/systemui/flags/Flags.kt
+@@ -220,7 +220,7 @@ object Flags {
+     // 500 - quick settings
+ 
+     // TODO(b/254512321): Tracking Bug
+-    @JvmField val COMBINED_QS_HEADERS = releasedFlag(501, "combined_qs_headers")
++    @JvmField val COMBINED_QS_HEADERS = resourceBooleanFlag(501, R.bool.flag_combined_qs_headers, "combined_qs_headers")
+     val PEOPLE_TILE = resourceBooleanFlag(502, R.bool.flag_conversations, "people_tile")
+ 
+     @JvmField
+-- 
+2.34.1
+
